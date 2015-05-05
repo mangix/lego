@@ -2,7 +2,7 @@
   "name": "lego",
   "version": "1.0.0",
   "description": "node web modules framework",
-  "main": "index.js",
+  "main": "./lib/lego.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
