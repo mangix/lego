@@ -15,6 +15,13 @@ describe("lego.brick", function () {
             expect(brick.prototype).to.be.an.instanceof(Brick);
 
         });
+
+        it("should set handler to brick's prototype" , function(){
+            var handler = function(){};
+            var brick = Brick.create("testBrick", handler);
+
+            expect(brick.prototype.handle).to.be.equal(handler);
+        });
     });
 
 });
