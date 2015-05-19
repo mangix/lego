@@ -7,6 +7,11 @@ var Brick = require("../lib/brick");
 describe("lego.brick", function () {
 
     describe("Brick.create", function () {
+        it("handle should be a function" , function(){
+            expect(function(){
+                Brick.create("brick with no handle");
+            }).to.throw(Error);
+        });
 
         it("should return a sub class of Brick", function () {
             var brick = Brick.create("testBrick", function () {
@@ -16,7 +21,7 @@ describe("lego.brick", function () {
 
         });
 
-        it("should set handler to brick's prototype" , function(){
+        it("should set handle to brick's prototype" , function(){
             var handler = function(){};
             var brick = Brick.create("testBrick", handler);
 
