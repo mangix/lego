@@ -23,7 +23,7 @@ describe("lego.Lego", function () {
     describe("Lego.pipe" , function(){
         it("should return this" , function(){
             var lego = new Lego();
-            expect(lego.pipe()).to.equal(lego);
+            expect(lego.pipe(new Lego.Brick())).to.equal(lego);
         });
     });
 });
