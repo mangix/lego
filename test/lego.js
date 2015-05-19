@@ -21,9 +21,17 @@ describe("lego.Lego", function () {
     });
 
     describe("Lego.pipe" , function(){
+        it("should throw an error when no bricks" , function(){
+            var lego = new Lego();
+            expect(function(){
+                lego.pipe();
+            }).to.throw(Error);
+        });
+
         it("should return this" , function(){
             var lego = new Lego();
             expect(lego.pipe(new Lego.Brick())).to.equal(lego);
         });
+
     });
 });
