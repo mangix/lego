@@ -32,7 +32,7 @@ describe("lego.brick", function () {
             var name = "NameOfBrick";
             var brick = Brick.create(name , function(){});
             expect(brick.Name).to.equal(name);
-        })
+        });
     });
 
 });

@@ -32,6 +32,12 @@ describe("lego.Lego", function () {
             var lego = new Lego();
             expect(lego.pipe(new Lego.Brick())).to.equal(lego);
         });
+    });
 
+    describe("Lego.done" , function(){
+        it("should return this" , function(){
+            var lego = new Lego();
+            expect(lego.done()).to.equal(lego);
+        });
     });
 });
