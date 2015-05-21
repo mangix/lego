@@ -18,13 +18,12 @@ With Lego we made this easier.
     in module `head.js` 
     
     ```js
-        var Brick = require("node-lego").Brick;
-        module.exports = Brick.create("head" , function(params , finish){
-            //do module biz logic here
+    var Brick = require("node-lego").Brick;
+    module.exports = Brick.create("head" , function(params , finish){
+        //do module biz logic here
+        finish(Brick.SUCCESS , headData);
             
-            finish(Brick.SUCCESS , headData);
-            
-        });
+    });
     ```
     
 - make Bricks together
@@ -32,16 +31,18 @@ With Lego we made this easier.
     in your http handler
     
     ```js
-        var head = require("./head");
-        var body = require("./body");
+    var head = require("./head");
+    var body = require("./body");
         
-        new Lego().start(params).pipe(head,body).done(function(data){
-            //you will get headData , bodyData here
+    new Lego().start(params).pipe(head,body).done(function(data){
+        //you will get headData , bodyData here
             
-            console.log(data.head);
-            console.log(data.body);
+        console.log(data.head);
+        console.log(data.body);
+        
+        render("template" , data);
             
-        });
+    });
     ```
     
     
