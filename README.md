@@ -51,8 +51,8 @@ With Lego we made this easier.
 
 #### Brick.create(name , handler);
 
-    - `name`      {String} name of the module
-    - `handler`   {Function} handle function , `params` and `finishCallback` will be parsed in.
+- `name`      {String} name of the module
+- `handler`   {Function} handle function , `params` and `finishCallback` will be parsed in.
     
 define a module
 
@@ -75,7 +75,7 @@ in handler , call `finish` callback with Brick.FAIL  when an error occurs , and 
 
 #### lego.start(params)
 
-    - `params` {Object} initial data
+- `params` {Object} initial data
     
 start the module system with some initial data. Each Brick will get this data in handler.
 
@@ -87,13 +87,11 @@ new Lego().start({
 
 #### lego.pipe(brick1,brick2....)
 
-    - `brick` `Brick` created by Brick.create function
+- `brick` `Brick` created by Brick.create function
     
-    execute each brick in the same time , and merge the data together.
-
-    `pipe` could be called many times. pipes are serial and in each pipe bricks are in parallel.
-
-    data will be  merged and passed to the next.
+execute each brick in the same time , and merge the data together.
+`pipe` could be called many times. pipes are serial and in each pipe bricks are in parallel.
+data will be  merged and passed to the next.
 
 ```js
 new Lego().start({
