@@ -112,9 +112,9 @@ new Lego().start({
 
 #### lego.done(callback)
 
-    - `callback` , callback function with data
+- `callback` , callback function with data
     
-    when all pipes are finish , this callback will be called with the merged data
+when all pipes are finish , this callback will be called with the merged data
 ```js
 new Lego().start({
     id:1
