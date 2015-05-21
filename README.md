@@ -45,5 +45,21 @@ With Lego we made this easier.
     });
     ```
     
+## API
+
+### Lego.Brick
+
+- Brick.create(name , handler);
+
+    - `name`      {String} name of the module
+    - `handler`   {Function} handle function , `params` and `finishCallback` will be parsed in.
+    
+define a module
+
+```js
+    var myBrick = Brick.create("myBrick", function(params , finish){
+    });
+```
+    
     
         
