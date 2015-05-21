@@ -62,6 +62,16 @@ var myBrick = Brick.create("myBrick", function(params , finish){
     finish(Brick.SUCCESS , data);
 });
 ```
+
+- Brick.SUCCESS
+
+in handler , call `finish` callback with Brick.SUCCESS  when data fetching is success;
+
+- Brick.FAIL
+
+in handler , call `finish` callback with Brick.FAIL  when an error occurs , and the data will be set to `null`
+
+
     
     
         
