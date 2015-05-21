@@ -11,7 +11,7 @@ With Lego we made this easier.
   
 ## Usage
 
-`npm install node-lego`
+`npm install node-lego --save`
 
 - define a `Brick` , in Lego we call module a `Brick`
 
