@@ -1,9 +1,19 @@
-# lego
-node web modules framework
+# Lego -- A node web modules framework
 
+In web development, a web page is usually separated to lots of modules ,  head , article , footer , side ads...
+
+And each module has individual data from db or service.
+
+We fetch all these data and then render the template .
+
+With Lego we made this easier.
+ 
+  
 ## Usage
 
-- define a `Brick` (module)
+`npm install node-lego`
+
+- define a `Brick` , in Lego we call module a `Brick`
 
     in module `head.js` 
     
