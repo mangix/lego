@@ -71,7 +71,59 @@ in handler , call `finish` callback with Brick.SUCCESS  when data fetching is su
 
 in handler , call `finish` callback with Brick.FAIL  when an error occurs , and the data will be set to `null`
 
+### Lego
 
+- lego.start(params)
+
+    - `params` {Object} initial data
     
+start the module system with some initial data. Each Brick will get this data in handler.
+
+```js
+new Lego().start({
+    id:1
+});
+```
+
+- lego.pipe(brick1,brick2....)
+
+    - `brick` `Brick` created by Brick.create function
     
+execute each brick in the same time , and merge the data together.
+
+`pipe` could be called many times. pipes are serial and in each pipe bricks are in parallel.
+
+data will be  merged and passed to the next.
+
+```js
+new Lego().start({
+    id:1
+})
+
+//preBrick1 and preBrick2 will be executed at the same time
+.pipe(preBrick1,preBrick2)
+
+//nextBrick1 and nextBrick2 will be executed at the same time when preBricks are all finished
+.pipe(nextBrick1,nextBrick2)
+
+.done(function(data){
+})
+```
+
+- lego.done(callback)
+
+    - `callback` , callback function with data
+    
+when all pipes are finish , this callback will be called with the merged data
+```js
+new Lego().start({
+    id:1
+}).pipe(brick1,brick2).done(function(data){
+    //data is :{
+        id:1,
+        brick1Name:brick1Data,
+        brick2Name:brick2Data
+    }
+});
+```    
         
