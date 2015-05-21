@@ -57,8 +57,10 @@ With Lego we made this easier.
 define a module
 
 ```js
-    var myBrick = Brick.create("myBrick", function(params , finish){
-    });
+var myBrick = Brick.create("myBrick", function(params , finish){
+    //call finish with `Brick.SUCCESS` or `Brick.FAIL`
+    finish(Brick.SUCCESS , data);
+});
 ```
     
     
