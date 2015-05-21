@@ -89,11 +89,11 @@ new Lego().start({
 
     - `brick` `Brick` created by Brick.create function
     
-execute each brick in the same time , and merge the data together.
+    execute each brick in the same time , and merge the data together.
 
-`pipe` could be called many times. pipes are serial and in each pipe bricks are in parallel.
+    `pipe` could be called many times. pipes are serial and in each pipe bricks are in parallel.
 
-data will be  merged and passed to the next.
+    data will be  merged and passed to the next.
 
 ```js
 new Lego().start({
@@ -114,7 +114,7 @@ new Lego().start({
 
     - `callback` , callback function with data
     
-when all pipes are finish , this callback will be called with the merged data
+    when all pipes are finish , this callback will be called with the merged data
 ```js
 new Lego().start({
     id:1
