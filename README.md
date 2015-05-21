@@ -49,7 +49,7 @@ With Lego we made this easier.
 
 ### Lego.Brick
 
-- Brick.create(name , handler);
+#### Brick.create(name , handler);
 
     - `name`      {String} name of the module
     - `handler`   {Function} handle function , `params` and `finishCallback` will be parsed in.
@@ -63,17 +63,17 @@ var myBrick = Brick.create("myBrick", function(params , finish){
 });
 ```
 
-- Brick.SUCCESS
+#### Brick.SUCCESS
 
 in handler , call `finish` callback with Brick.SUCCESS  when data fetching is success;
 
-- Brick.FAIL
+#### Brick.FAIL
 
 in handler , call `finish` callback with Brick.FAIL  when an error occurs , and the data will be set to `null`
 
 ### Lego
 
-- lego.start(params)
+#### lego.start(params)
 
     - `params` {Object} initial data
     
@@ -85,7 +85,7 @@ new Lego().start({
 });
 ```
 
-- lego.pipe(brick1,brick2....)
+#### lego.pipe(brick1,brick2....)
 
     - `brick` `Brick` created by Brick.create function
     
@@ -110,7 +110,7 @@ new Lego().start({
 })
 ```
 
-- lego.done(callback)
+#### lego.done(callback)
 
     - `callback` , callback function with data
     
