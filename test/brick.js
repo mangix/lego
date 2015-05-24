@@ -2,7 +2,10 @@
  * Test lib/brick.js
  * */
 var expect = require("chai").expect;
-var Brick = require("../lib/brick");
+var Lego = require("../lib/lego");
+var Brick = Lego.Brick;
+
+Lego.enableLog = false;
 
 describe("lego.Brick", function () {
 

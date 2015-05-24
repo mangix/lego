@@ -6,11 +6,15 @@ var Lego = require("../lib/lego");
 var Brick = Lego.Brick;
 
 describe("lego.Lego", function () {
-    var lego , brick;
+    var lego , brick , failBrick;
 
     beforeEach(function () {
         lego = new Lego();
-        brick = Brick.create("testBrick", function () {
+        brick = Brick.create("testBrick", function (params, finish) {
+            finish(Brick.SUCCESS);
+        });
+        failBrick = Brick.create("testFailBrick", function (params, finish) {
+            finish(Brick.FAIL);
         });
     });
 
@@ -44,6 +48,19 @@ describe("lego.Lego", function () {
         it("should return this", function () {
             expect(lego.pipe(new Lego.Brick())).to.equal(lego);
         });
+
+        it("should set Brick.Name to data", function () {
+            lego.start().pipe(brick, failBrick).done(function (data) {
+                expect("testBrick" in data).to.be.true;
+                expect("testFailBrick" in data).to.be.true;
+            });
+        });
+
+        it("should set brick data to null when brick fail", function () {
+            lego.start().pipe(failBrick).done(function (data) {
+                expect(data.testFailBrick).to.be.null;
+            });
+        })
     });
 
     /**
