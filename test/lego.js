@@ -62,7 +62,16 @@ describe("lego.Lego", function () {
             lego.start().pipe(failBrick).done(function (data) {
                 expect(data.testFailBrick).to.be.null;
             });
-        })
+        });
+
+        it("should set brick data correct when brick success", function () {
+            var sucData = {};
+            lego.start().pipe(Brick.create("sucBrick", function (p, finish) {
+                finish(Brick.SUCCESS, sucData);
+            })).done(function (data) {
+                expect(data.sucBrick).to.equal(sucData);
+            });
+        });
     });
 
     /**
