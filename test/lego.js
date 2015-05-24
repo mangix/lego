@@ -136,5 +136,11 @@ describe("lego.Lego", function () {
             Lego._transProperty(from,to,"data.some.nothing" ,"nothing");
             expect(to.nothing).to.be.null;
         });
+
+        it("should set the right property when toProperty is complex" , function(){
+            Lego._transProperty(from,to,"data.d.deep" , "to.hide.deep");
+
+            expect(to.to.hide.deep).to.equal(from.data.d.deep);
+        });
     });
 });
