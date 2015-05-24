@@ -40,4 +40,11 @@ describe("lego.Lego", function () {
             expect(lego.done()).to.equal(lego);
         });
     });
+
+    describe("Lego.top" , function(){
+        it("should return this" , function(){
+            var lego = new Lego();
+            expect(lego.top()).to.equal(lego);
+        });
+    });
 });
