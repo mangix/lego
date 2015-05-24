@@ -5,6 +5,8 @@ var expect = require("chai").expect;
 var Lego = require("../lib/lego");
 var Brick = Lego.Brick;
 
+Lego.switchLog(false);
+
 describe("lego.Lego", function () {
     var lego , brick , failBrick;
 
