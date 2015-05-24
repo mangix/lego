@@ -35,4 +35,16 @@ describe("lego.Brick", function () {
         });
     });
 
+    describe("Brick.find", function(){
+        it("should find Brick from globals by Name" , function(){
+            var b = Brick.create("test" , function(){
+            });
+
+            expect(Brick.find("unExistName")).to.equal(undefined);
+
+            expect(Brick.find("test")).to.equal(b);
+
+        });
+    });
+
 });
