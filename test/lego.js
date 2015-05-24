@@ -91,6 +91,15 @@ describe("lego.Lego", function () {
         it("should return this", function () {
             expect(lego.done()).to.equal(lego);
         });
+
+        it("should get data from each Brick", function () {
+            lego.pipe(brick, failBrick).done(function (data) {
+                expect(brick.Name in data).to.be.true;
+                expect(failBrick.Name in data).to.be.true;
+            });
+        });
+
+
     });
 
     /**
