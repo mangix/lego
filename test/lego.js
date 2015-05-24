@@ -133,13 +133,20 @@ describe("lego.Lego", function () {
             expect(to.deep).to.equal(from.data.d.deep);
             expect(to.m).to.equal(from.data.m);
 
-            Lego._transProperty(from,to,"data.some.nothing" ,"nothing");
+            Lego._transProperty(from, to, "data.some.nothing", "nothing");
             expect(to.nothing).to.be.null;
         });
 
-        it("should set the right property when toProperty is complex" , function(){
-            Lego._transProperty(from,to,"data.d.deep" , "to.hide.deep");
+        it("should set the right property when toProperty is complex", function () {
+            Lego._transProperty(from, to, "data.d.deep", "to.hide.deep");
 
+            expect(to.to.hide.deep).to.equal(from.data.d.deep);
+            to = {
+                to: {
+                    hide: 1
+                }
+            };
+            Lego._transProperty(from, to, "data.d.deep", "to.hide.deep");
             expect(to.to.hide.deep).to.equal(from.data.d.deep);
         });
     });
