@@ -6,12 +6,12 @@ var Lego = require("../lib/lego");
 var Brick = Lego.Brick;
 
 describe("lego.Lego", function () {
-    var lego;
+    var lego , brick;
 
     beforeEach(function(){
         lego = new Lego();
+        brick = Brick.create("testBrick",function(){});
     });
-
 
     describe("Lego.start", function () {
         it("should return this", function () {
@@ -58,9 +58,16 @@ describe("lego.Lego", function () {
         });
 
         it("param 'property','toProperty' should be String" , function(){
-            var brick = Brick.create("top_brick",function(){});
             lego.top(brick);
             expect(lego.propertyQueue.length).to.equal(0);
+        });
+
+        it("should add to propertyQuery" , function(){
+            lego.top(brick , "from" , "to");
+            expect(lego.propertyQueue.length).to.equal(1);
+            expect(lego.propertyQueue[0].brick).to.equal(brick);
+            expect(lego.propertyQueue[0].property).to.equal("from");
+            expect(lego.propertyQueue[0].toProperty).to.equal("to");
         });
     });
 });
