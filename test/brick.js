@@ -23,12 +23,12 @@ describe("lego.Brick", function () {
             expect(brick.prototype).to.be.an.instanceof(Brick);
         });
 
-        it("should set handle to brick's prototype", function () {
+        it("should set bizHandle to brick's prototype", function () {
             var handler = function () {
             };
             var brick = Brick.create("testBrick", handler);
 
-            expect(brick.prototype.handle).to.be.equal(handler);
+            expect(brick.prototype.bizHandle).to.be.equal(handler);
         });
 
         it("should set Brick.Name" , function(){
