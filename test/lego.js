@@ -64,12 +64,22 @@ describe("lego.Lego", function () {
             });
         });
 
-        it("should set brick data correct when brick success", function () {
+        it("should set brick data correctly when brick success", function () {
             var sucData = {};
             lego.start().pipe(Brick.create("sucBrick", function (p, finish) {
                 finish(Brick.SUCCESS, sucData);
             })).done(function (data) {
                 expect(data.sucBrick).to.equal(sucData);
+            });
+        });
+
+        it("should trans property correctly when top() set", function () {
+            var sucData = {topData: 1};
+            var sucBrick = Brick.create("sucBrick", function (p, finish) {
+                finish(Brick.SUCCESS, sucData);
+            });
+            lego.start().pipe(sucBrick).top(sucBrick, "topData", "id").done(function (data) {
+                expect(data.id).to.equal(sucData.topData);
             });
         });
     });
