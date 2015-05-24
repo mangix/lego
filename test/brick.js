@@ -4,7 +4,7 @@
 var expect = require("chai").expect;
 var Brick = require("../lib/brick");
 
-describe("lego.brick", function () {
+describe("lego.Brick", function () {
 
     describe("Brick.create", function () {
         it("handle should be a function", function () {
