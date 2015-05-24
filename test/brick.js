@@ -31,22 +31,53 @@ describe("lego.Brick", function () {
             expect(brick.prototype.bizHandle).to.be.equal(handler);
         });
 
-        it("should set Brick.Name" , function(){
+        it("should set Brick.Name", function () {
             var name = "NameOfBrick";
-            var brick = Brick.create(name , function(){});
+            var brick = Brick.create(name, function () {
+            });
             expect(brick.Name).to.equal(name);
         });
     });
 
-    describe("Brick.find", function(){
-        it("should find Brick from globals by Name" , function(){
-            var b = Brick.create("test" , function(){
+    describe("Brick.find", function () {
+        it("should find Brick from globals by Name", function () {
+            var b = Brick.create("test", function () {
             });
 
             expect(Brick.find("unExistName")).to.equal(undefined);
 
             expect(Brick.find("test")).to.equal(b);
 
+        });
+    });
+
+    describe("Brick.prototype.handle", function (done) {
+        var brick;
+        beforeEach(function () {
+            brick = Brick.create("testHandleBrick", function (params, finish) {
+                setTimeout(function () {
+                    finish(Brick.SUCCESS);
+                }, 100);
+            });
+        });
+
+        it("should finish with status SUCCESS when timeout not set", function () {
+            new brick().handle({}, function () {
+                expect(stack).to.equal(Brick.SUCCESS);
+            });
+        });
+
+        it("should finish with status TIMEOUT when timeout", function () {
+            new brick().handle({}, function (status, data) {
+                expect(status).to.equal(Brick.TIMEOUT);
+                done();
+            }, 100);
+        });
+
+        it("should finish with status SUCCESS when not timeout", function () {
+            new brick().handle({}, function (status) {
+                expect(status).to.equal(Brick.SUCCESS);
+            }, 1000);
         });
     });
 
