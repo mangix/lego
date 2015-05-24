@@ -45,10 +45,28 @@ describe("lego.Lego", function () {
             expect(function () {
                 lego.pipe();
             }).to.throw(Error);
+
+            expect(function(){
+                lego.pipe({})
+            }).to.throw(Error);
         });
 
         it("should return this", function () {
-            expect(lego.pipe(new Lego.Brick())).to.equal(lego);
+            expect(lego.pipe(brick)).to.equal(lego);
+        });
+
+        it("should pass params to Brick", function () {
+            var params = {
+                prop1: 1,
+                prop2: 2
+            };
+            lego.start(params).pipe(Brick.create("testBrick", function (p) {
+                for (var o in params) {
+                    if (params.hasOwnProperty(o)) {
+                        expect(p[o]).to.equal(params[o]);
+                    }
+                }
+            }));
         });
 
         it("should set Brick.Name to data", function () {
@@ -82,6 +100,23 @@ describe("lego.Lego", function () {
                 expect(data.id).to.equal(sucData.topData);
             });
         });
+
+        it("should pass previous data to the next pipe and all pass to done()", function () {
+            var firstData = {data: 1};
+            var firstBrick = Brick.create("pre", function (p, finish) {
+                finish(Brick.SUCCESS, firstData);
+            });
+            var secondData = {data: 2};
+            var secondBrick = Brick.create("next", function (p, finish) {
+                expect(p.pre).to.equal(firstData);
+                finish(Brick.SUCCESS, secondData);
+            });
+            lego.start().pipe(firstBrick).pipe(secondBrick).done(function (data) {
+                expect(data.pre).to.equal(firstData);
+                expect(data.next).to.equal(secondData);
+            });
+        });
+
     });
 
     /**
