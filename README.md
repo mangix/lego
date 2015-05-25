@@ -72,12 +72,12 @@ in handler , call `finish` callback with Brick.SUCCESS  when data fetching is su
 
 in handler , call `finish` callback with Brick.FAIL  when an error occurs , and the data will be set to `null`
 
-### Brick.TIMEOUT
+#### Brick.TIMEOUT
 when an `timeout` option passed to Lego , if Brick handle timeout , `finish` will be called with TIMEOUT automatic.
 
 ### Lego
 
-### constructor Lego(options)
+#### constructor Lego(options)
 
 - `options` {Object} 
  
