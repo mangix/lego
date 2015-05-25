@@ -82,7 +82,7 @@ when an `timeout` option passed to Lego , if Brick handle timeout , `finish` wil
  
 ```js
     {
-        timeout:0 , brick timeout ,default 0 , not control
+        timeout:0 , //brick timeout time  ,default 0 , not control
     }
 ```
 
@@ -147,6 +147,8 @@ You can use this method to convert the inside property to the top level.
 - `property` src property 
 - `toProperty` target property
 
+example:
+
 ```js
 //in your user brick handle , you finish
 finish(Brick.SUCCESS , {
@@ -158,7 +160,9 @@ finish(Brick.SUCCESS , {
 
 //you have to use this data by data.User.userInfo.id , in the OrderBrick you have to :
 Brick.create("orderBrick" , function(params , finish){
-    //It's not a good idea to use params like this. It makes the OrderBrick to depend on the UserBrick,
+
+    //It's not a good idea to use params like this. 
+    //It makes the OrderBrick to depend on the UserBrick,
     //but actually it's only depend on `userId`
     var userId = params.User.userInfo.id;
 });
@@ -169,7 +173,8 @@ new Lego().pipe(UserBrick).top(UserBrick,'userInfo.id','userId').pipe(OrderBrick
 //now in OrderBrick 
 var userId = params.userId;
 
-//you can also use OrderBrick in the first pipe, because it's not depend on params.User.userInfo.id
+//you can also use OrderBrick in the first pipe,
+//because it's not depend on params.User.userInfo.id
 new Lego().start({
     userId:123
 }).pipe(OrderBrick).done();
