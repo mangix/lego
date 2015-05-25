@@ -18,6 +18,9 @@
   ],
   "author": "mangix",
   "license": "MIT",
+  "engines": {
+      "node" : ">=0.10.0"
+  },
   "bugs": {
     "url": "https://github.com/mangix/lego/issues"
   },
