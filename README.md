@@ -1,5 +1,5 @@
 # Lego -- A node web modules framework
-[![Build Status](https://travis-ci.org/mangix/lego.svg)](https://travis-ci.org/mangix/lego)
+[![Build Status](https://travis-ci.org/mangix/express-sledge.svg?branch=master)](https://travis-ci.org/mangix/express-sledge)
 
 In web development, a web page is usually separated to lots of modules ,  head , article , footer , side ads...
 
