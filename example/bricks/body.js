@@ -8,9 +8,9 @@ module.exports = Brick.create("body", function (params, finish) {
     } else {
         finish(Brick.SUCCESS, {
             year: date.getFullYear(),
-            month:date.getMonth()+1,
-            date:date.getDate()
+            month: date.getMonth() + 1,
+            date: date.getDate()
         });
     }
 
-});
+} , "body.jade");
