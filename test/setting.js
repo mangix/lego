@@ -21,7 +21,6 @@ describe("Lego.setting" , function(){
             var p = "somepath";
 
             expect(setting.viewPath(p)).to.equal(path.join(setting.get("views") , p));
-
         });
     });
 
