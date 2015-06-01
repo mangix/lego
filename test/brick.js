@@ -54,7 +54,7 @@ describe("lego.Brick", function () {
     });
 
     //test handler
-    describe("Brick.prototype.handle", function (done) {
+    describe("Brick.prototype.handle", function () {
         var brick;
         beforeEach(function () {
             brick = Brick.create("testHandleBrick", function (params, finish) {
@@ -65,16 +65,16 @@ describe("lego.Brick", function () {
         });
 
         it("should finish with status SUCCESS when timeout not set", function () {
-            new brick().handle({}, function () {
-                expect(stack).to.equal(Brick.SUCCESS);
+            new brick().handle({}, function (status) {
+                expect(status).to.equal(Brick.SUCCESS);
             });
         });
 
-        it("should finish with status TIMEOUT when timeout", function () {
+        it("should finish with status TIMEOUT when timeout", function (done) {
             new brick().handle({}, function (status, data) {
                 expect(status).to.equal(Brick.TIMEOUT);
                 done();
-            }, 100);
+            }, 99);
         });
 
         it("should finish with status SUCCESS when not timeout", function () {

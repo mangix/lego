@@ -4,8 +4,10 @@
 var expect = require("chai").expect;
 var Lego = require("../lib/lego");
 var Brick = Lego.Brick;
+var path = require("path");
 
 Lego.switchLog(false);
+Lego.setting.set("views" , path.join(__dirname,"views"));
 
 describe("lego.Lego", function () {
     var lego , brick , failBrick;
@@ -46,7 +48,7 @@ describe("lego.Lego", function () {
                 lego.pipe();
             }).to.throw(Error);
 
-            expect(function(){
+            expect(function () {
                 lego.pipe({})
             }).to.throw(Error);
         });
@@ -114,6 +116,18 @@ describe("lego.Lego", function () {
             lego.start().pipe(firstBrick).pipe(secondBrick).done(function (data) {
                 expect(data.pre).to.equal(firstData);
                 expect(data.next).to.equal(secondData);
+            });
+        });
+
+        //test view
+        it("should set html correctly to brick data when viewPath set", function () {
+            var viewBrick = Brick.create("brickWithView", function (params, finish) {
+                finish(Brick.SUCCESS, {});
+            }, "test.jade");
+
+            lego.start().pipe(viewBrick).done(function(data){
+                console.log(data)
+                expect(data["brickWithViewView"]).to.equal("test");
             });
         });
 

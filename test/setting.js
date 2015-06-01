@@ -14,15 +14,4 @@ describe("Lego.setting" , function(){
             expect(setting.get("test")).to.equal(value);
         });
     });
-
-    describe("setting.viewPath",function(){
-        it("should return the path join with setting.get('views')",function(){
-            var views = setting.get("views");
-            var p = "somepath";
-
-            expect(setting.viewPath(p)).to.equal(path.join(setting.get("views") , p));
-        });
-    });
-
-
 });
