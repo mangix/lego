@@ -9,6 +9,7 @@ Lego.switchLog(false);
 
 describe("lego.Brick", function () {
 
+    //test create
     describe("Brick.create", function () {
         it("handle should be a function", function () {
             expect(function () {
@@ -39,6 +40,7 @@ describe("lego.Brick", function () {
         });
     });
 
+    //test find
     describe("Brick.find", function () {
         it("should find Brick from globals by Name", function () {
             var b = Brick.create("test", function () {
@@ -51,6 +53,7 @@ describe("lego.Brick", function () {
         });
     });
 
+    //test handler
     describe("Brick.prototype.handle", function (done) {
         var brick;
         beforeEach(function () {
@@ -80,5 +83,7 @@ describe("lego.Brick", function () {
             }, 1000);
         });
     });
+
+
 
 });
