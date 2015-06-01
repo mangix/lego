@@ -7,7 +7,7 @@ var Brick = Lego.Brick;
 var path = require("path");
 
 Lego.switchLog(false);
-Lego.setting.set("views" , path.join(__dirname,"views"));
+Lego.setting.set("views", path.join(__dirname, "views"));
 
 describe("lego.Lego", function () {
     var lego , brick , failBrick;
@@ -119,17 +119,6 @@ describe("lego.Lego", function () {
             });
         });
 
-        //test view
-        it("should set html correctly to brick data when viewPath set", function () {
-            var viewBrick = Brick.create("brickWithView", function (params, finish) {
-                finish(Brick.SUCCESS, {});
-            }, "test.jade");
-
-            lego.start().pipe(viewBrick).done(function(data){
-                console.log(data)
-                expect(data["brickWithViewView"]).to.equal("test");
-            });
-        });
 
     });
 
@@ -180,5 +169,39 @@ describe("lego.Lego", function () {
             expect(lego.propertyQueue[0].toProperty).to.equal("to");
         });
     });
+
+    /**
+     * Test view
+     * */
+    describe("Lego.View", function () {
+        //test view
+        it("should set html correctly to brick data when viewPath set", function () {
+            var viewBrick = Brick.create("brickWithView", function (params, finish) {
+                finish(Brick.SUCCESS, {});
+            }, "test.jade");
+            lego.start().pipe(viewBrick).done(function (data) {
+                expect(data["brickWithViewView"]).to.equal("test");
+            });
+        });
+
+        it("should set html to empty when view render failed", function () {
+            var viewBrick = Brick.create("brickWidthWrongViewPath", function (params, finish) {
+                finish(Brick.SUCCESS, {});
+            }, "wrong.jade");
+
+            lego.start().pipe(viewBrick).done(function(data){
+                expect(data.brickWidthWrongViewPathView).to.equal("");
+            });
+        });
+
+        it("should set html to empty when view not set", function () {
+            lego.start().pipe(brick).done(function(data){
+                expect(data[brick.Name+"View"]).to.equal(undefined);
+            });
+        });
+
+
+
+    })
 
 });

@@ -74,7 +74,7 @@ describe("lego.Brick", function () {
             new brick().handle({}, function (status, data) {
                 expect(status).to.equal(Brick.TIMEOUT);
                 done();
-            }, 99);
+            }, 90);
         });
 
         it("should finish with status SUCCESS when not timeout", function () {
