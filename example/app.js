@@ -2,6 +2,7 @@ var http = require("http");
 var Lego = require("../lib/lego");
 var head = require("./bricks/head");
 var body = require("./bricks/body");
+Lego.setting.set("debug" , true);
 
 http.createServer(function (req, res) {
 
