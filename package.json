@@ -1,6 +1,6 @@
 {
   "name": "node-lego",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "node web modules framework",
   "main": "./lib/lego.js",
   "scripts": {
