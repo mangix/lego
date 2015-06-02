@@ -189,19 +189,27 @@ describe("lego.Lego", function () {
                 finish(Brick.SUCCESS, {});
             }, "wrong.jade");
 
-            lego.start().pipe(viewBrick).done(function(data){
+            lego.start().pipe(viewBrick).done(function (data) {
                 expect(data.brickWidthWrongViewPathView).to.equal("");
             });
         });
 
         it("should set html to empty when view not set", function () {
-            lego.start().pipe(brick).done(function(data){
-                expect(data[brick.Name+"View"]).to.equal(undefined);
+            lego.start().pipe(brick).done(function (data) {
+                expect(data[brick.Name + "View"]).to.equal(undefined);
             });
         });
 
+        it("should set html to error stack when view render failed in debug", function () {
+            Lego.setting.set("debug" , true);
+            var viewBrick = Brick.create("brickWidthWrongViewPath", function (params, finish) {
+                finish(Brick.SUCCESS, {});
+            }, "wrong.jade");
 
-
-    })
+            lego.start().pipe(viewBrick).done(function (data) {
+                expect(data.brickWidthWrongViewPathView).to.not.equal("");
+            });
+        });
+    });
 
 });
