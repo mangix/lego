@@ -119,7 +119,15 @@ describe("lego.Lego", function () {
             });
         });
 
+        it("should set brick data to null when brick handler throws an exception", function () {
+            var exceptionBrick = Brick.create("exceptionBrick", function (params, finish) {
+                throw new Error("test exception brick");
+            });
+            lego.start().pipe(exceptionBrick).done(function (data) {
+                expect(data.exceptionBrick).to.equal(null);
 
+            });
+        });
     });
 
     /**
@@ -201,7 +209,7 @@ describe("lego.Lego", function () {
         });
 
         it("should set html to error stack when view render failed in debug", function () {
-            Lego.setting.set("debug" , true);
+            Lego.setting.set("debug", true);
             var viewBrick = Brick.create("brickWidthWrongViewPath", function (params, finish) {
                 finish(Brick.SUCCESS, {});
             }, "wrong.jade");
@@ -210,6 +218,12 @@ describe("lego.Lego", function () {
                 expect(data.brickWidthWrongViewPathView).to.not.equal("");
             });
         });
+
+        it("should set html to empty when brick fail", function () {
+            lego.start().pipe(failBrick).done(function (data) {
+                expect(data[failBrick.Name + "View"]).to.equal(undefined);
+            });
+        })
     });
 
 });
