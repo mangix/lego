@@ -8,11 +8,12 @@ And each module has individual data from db or service.
 We fetch all these data and then render the template .
 
 With Lego we made this easier.
- 
+
+## Install
+
+ `npm install node-lego --save`
   
 ## Usage
-
-`npm install node-lego --save`
 
 - define a `Brick` , in Lego we call module a `Brick`
 
