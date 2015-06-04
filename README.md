@@ -18,59 +18,59 @@ With Lego we made this easier.
 In your request handler :
 
 ```js
-	var User = require("./user");
-	var OrderList = require("./orderlist");
-	var Profile = require("./profile");
-	var Lego = require("node-lego");
+var User = require("./user");
+var OrderList = require("./orderlist");
+var Profile = require("./profile");
+var Lego = require("node-lego");
 	
-	app.get("/index" , function(req , res){
-		new Lego().start({
-			userId: req.query.id
-		})
-		.pipe(User)
-		.pipe(OrderList,Profile)
-		.done(function(data){
-			//data is something like 
-			{
-				userId:123,
-				User:{
-					name:'mangix',
-					id:123,
-					email:''
-				},
-				UserView:'<div>Hello mangix</div>',//rendered html 
-				OrderList:[],
-				OrderListView:'',
-				Proflie:{},
-				ProfileView:''
-			}
+app.get("/index" , function(req , res){
+	new Lego().start({
+		userId: req.query.id
+	})
+	.pipe(User)
+	.pipe(OrderList,Profile)
+	.done(function(data){
+		//data is something like 
+		{
+			userId:123,
+			User:{
+				name:'mangix',
+				id:123,
+				email:''
+			},
+			UserView:'<div>Hello mangix</div>',//rendered html 
+			OrderList:[],
+			OrderListView:'',
+			Proflie:{},
+			ProfileView:''
+		}
 			
-			//use this data as you want
+		//use this data as you want
+		
+		//render the index.jade template
+		res.render("index", data);
 			
-			//render the index.jade template
-			res.render("index", data);
-			
-			//or return as json
-			res.send(data);
-		});
+		//or return as json
+		res.send(data);
 	});
+});
 ```
 
 In module  `user.js`:
 
 ```js
-	var Brick = require("node-lego").Brick;
-	module.exports = Brick.create("User",function(params,finish){
-		var userId = params.userId;
-		getUser(userId,function(err , user){
-			if(err){
-				finish(Brick.FAIL);
-			}else{
-				finish(Brick.SUCCESS , user);
-			}
-		});
+var Brick = require("node-lego").Brick;
+module.exports = Brick.create("User",function(params,finish){
+	var userId = params.userId;
+	getUser(userId,function(err , user){
+		if(err){
+			finish(Brick.FAIL);
+		}else{
+			finish(Brick.SUCCESS , user);
+		}
+	});
 		
-	},"/index/user.jade");
+},"/index/user.jade");
 	
 
 ```
@@ -79,22 +79,22 @@ In module `orderlist.js`
 
 ```js
 
-	var Brick = require("node-lego").Brick;
-    module.exports=Brick.create("OrderList",function(params,finish){
-		var user = params.User;
-		if(!user){
-			finish(Brick.FAIL);
-		}else{
-			getOrderList(user,function(err, list){
-				if(err){
-					finish(Brick.FAIL);
-				}else{
-					finish(Brick.SUCCESS, list);
-				}
-			});
-		}
+var Brick = require("node-lego").Brick;
+module.exports=Brick.create("OrderList",function(params,finish){
+	var user = params.User;
+	if(!user){
+		finish(Brick.FAIL);
+	}else{
+		getOrderList(user,function(err, list){
+			if(err){
+				finish(Brick.FAIL);
+			}else{
+				finish(Brick.SUCCESS, list);
+			}
+		});
+	}
 		
-	},"/index/orderlist.jade");
+},"/index/orderlist.jade");
 	
 
 ```
@@ -104,11 +104,11 @@ In `profile.js` , do something same as orderlist;
 In `index.jade`
 
 ```js
-	div #{User.name}
+div #{User.name}
 	
-	.orderlist !{OrderListView}
+.orderlist !{OrderListView}
 	
-	.profile !{PrifileView}		
+.profile !{PrifileView}		
 
 ```
 
@@ -128,10 +128,10 @@ use `Lego.setting.get` and `Lego.setting.set` to get and set this config.
 
 example:
 ```js
-	var Lego = require("node-lego");
-	var path = require("path");
-	Lego.setting.set("views" , path.join(__dirname,"views"));
-	Lego.setting.set("view engine","jade");
+var Lego = require("node-lego");
+var path = require("path");
+Lego.setting.set("views" , path.join(__dirname,"views"));
+Lego.setting.set("view engine","jade");
 ```
 
 
@@ -170,13 +170,12 @@ if this brick finish with Brick.SUCCESS , this view will be rendered with the da
 
 ```js
 
-
-    User:{
-    	userId:123,
+User:{
+	userId:123,
     	name:"mangix",
     	email:"maqh1988@gmail.com"
-    },
-    UserView:'<div class="userinfo"><a href="/user/123">mangix</a><div class="email">maqh1988@gmail.com</div></div>'
+},
+UserView:'<div class="userinfo"><a href="/user/123">mangix</a><div class="email">maqh1988@gmail.com</div></div>'
 
 
 ```
@@ -199,9 +198,11 @@ when an `timeout` option passed to Lego , if Brick handle timeout , `finish` wil
 - `options` {Object} 
  
 ```js
-    {
-        timeout:0 , //brick timeout time  ,default 0 , not control
-    }
+
+{
+	timeout:0 , //brick timeout time  ,default 0 , not control
+}
+
 ```
 
 #### lego.start(params)
