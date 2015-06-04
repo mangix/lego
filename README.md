@@ -30,7 +30,28 @@ In your request handler :
 		.pipe(User)
 		.pipe(OrderList,Profile)
 		.done(function(data){
+			//data is something like 
+			{
+				userId:123,
+				User:{
+					name:'mangix',
+					id:123,
+					email:''
+				},
+				UserView:'<div>Hello mangix</div>',//rendered html 
+				OrderList:[],
+				OrderListView:'',
+				Proflie:{},
+				ProfileView:''
+			}
+			
+			//use this data as you want
+			
+			//render the index.jade template
 			res.render("index", data);
+			
+			//or return as json
+			res.send(data);
 		});
 	});
 ```
