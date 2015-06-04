@@ -116,12 +116,27 @@ In `index.jade`
     
 ## API
 
+### Lego.setting
+
+global config with a `get` and `set` function. Config list:
+
+- 'view engine'
+
+
+```js
+	var defaultConfig = {
+	}	
+
+```
+
+
 ### Lego.Brick
 
 #### Brick.create(name , handler);
 
-- `name`      {String} name of the module
-- `handler`   {Function} handle function , `params` and `finishCallback` will be parsed in.
+- `name`      {String} name of the module . An attribute with this name will set to the final data .
+- `handler`   {Function} handle function , `params` and `finishCallback` will be parsed in. Call this callback function with `status` and `data`.
+- `viewPath`  {String} optional, template file path, joined to `setting.get("views")`. if this argument provided , the template will be auto rendered when `finish(Brick.SUCCESS ,data)` called and a property Brick.Name+'View' will set to the final data with value as rendered html String.
     
 define a module
 
@@ -129,7 +144,7 @@ define a module
 var myBrick = Brick.create("myBrick", function(params , finish){
     //call finish with `Brick.SUCCESS` or `Brick.FAIL`
     finish(Brick.SUCCESS , data);
-});
+} , 'path/to/the/view.jade');
 ```
 
 #### Brick.SUCCESS
