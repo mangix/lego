@@ -15,37 +15,83 @@ With Lego we made this easier.
   
 ## Usage
 
-- define a `Brick` , in Lego we call module a `Brick`
+In your request handler :
 
-    in module `head.js` 
-    
-    ```js
-    var Brick = require("node-lego").Brick;
-    module.exports = Brick.create("head" , function(params , finish){
-        //do module biz logic here , call finish when done
-        finish(Brick.SUCCESS , headData);
-            
-    });
-    ```
-    
-- make Bricks together
-    
-    in your http handler
-    
-    ```js
-    var head = require("./head");
-    var body = require("./body");
-        
-    new Lego().start(params).pipe(head,body).done(function(data){
-        //you will get headData , bodyData here
-            
-        console.log(data.head);
-        console.log(data.body);
-        
-        render("template" , data);
-            
-    });
-    ```
+```js
+	var User = require("./user");
+	var OrderList = require("./orderlist");
+	var Profile = require("./profile");
+	var Lego = require("node-lego");
+	
+	app.get("/index" , function(req , res){
+		new Lego().start({
+			userId: req.query.id
+		})
+		.pipe(User)
+		.pipe(OrderList,Profile)
+		.done(function(data){
+			res.render("index", data);
+		});
+	});
+```
+
+In module  `user.js`:
+
+```js
+	var Brick = require("node-lego").Brick;
+	module.exports = Brick.create("User",function(params,finish){
+		var userId = params.userId;
+		getUser(userId,function(err , user){
+			if(err){
+				finish(Brick.FAIL);
+			}else{
+				finish(Brick.SUCCESS , user);
+			}
+		});
+		
+	},"/index/user.jade");
+	
+
+```
+
+In module `orderlist.js`
+
+```js
+
+	var Brick = require("node-lego").Brick;
+    module.exports=Brick.create("OrderList",function(params,finish){
+		var user = params.User;
+		if(!user){
+			finish(Brick.FAIL);
+		}else{
+			getOrderList(user,function(err, list){
+				if(err){
+					finish(Brick.FAIL);
+				}else{
+					finish(Brick.SUCCESS, list);
+				}
+			});
+		}
+		
+	},"/index/orderlist.jade");
+	
+
+```
+
+In `profile.js` , do something same as orderlist;
+
+In `index.jade`
+
+```js
+	div #{User.name}
+	
+	.orderlist !{OrderListView}
+	
+	.profile !{PrifileView}		
+
+```
+
+
     
 ## API
 
