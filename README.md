@@ -120,13 +120,18 @@ In `index.jade`
 
 global config with a `get` and `set` function. Config list:
 
-- 'view engine'
+- `view engine` , default `jade` , same as `express` , any template engin supported by [consolidate](https://github.com/tj/consolidate.js) is supported.
+- `views` , default `views` , root path of the template files , same as `express`
+- `debug` , default `process.NODE_EVN == 'development'` ,  debug mode , if true , view render error stack will set to the view property of the final data.
 
+use `Lego.setting.get` and `Lego.setting.set` to get and set this config.
 
+example:
 ```js
-	var defaultConfig = {
-	}	
-
+	var Lego = require("node-lego");
+	var path = require("path");
+	Lego.setting.set("views" , path.join(__dirname,"views"));
+	Lego.setting.set("view engine","jade");
 ```
 
 
