@@ -18,59 +18,59 @@ With Lego we made this easier.
 In your request handler :
 
 ```js
-	var User = require("./user");
-	var OrderList = require("./orderlist");
-	var Profile = require("./profile");
-	var Lego = require("node-lego");
+var User = require("./user");
+var OrderList = require("./orderlist");
+var Profile = require("./profile");
+var Lego = require("node-lego");
 	
-	app.get("/index" , function(req , res){
-		new Lego().start({
-			userId: req.query.id
-		})
-		.pipe(User)
-		.pipe(OrderList,Profile)
-		.done(function(data){
-			//data is something like 
-			{
-				userId:123,
-				User:{
-					name:'mangix',
-					id:123,
-					email:''
-				},
-				UserView:'<div>Hello mangix</div>',//rendered html 
-				OrderList:[],
-				OrderListView:'',
-				Proflie:{},
-				ProfileView:''
-			}
+app.get("/index" , function(req , res){
+	new Lego().start({
+		userId: req.query.id
+	})
+	.pipe(User)
+	.pipe(OrderList,Profile)
+	.done(function(data){
+		//data is something like 
+		{
+			userId:123,
+			User:{
+				name:'mangix',
+				id:123,
+				email:''
+			},
+			UserView:'<div>Hello mangix</div>',//rendered html 
+			OrderList:[],
+			OrderListView:'',
+			Proflie:{},
+			ProfileView:''
+		}
 			
-			//use this data as you want
+		//use this data as you want
+		
+		//render the index.jade template
+		res.render("index", data);
 			
-			//render the index.jade template
-			res.render("index", data);
-			
-			//or return as json
-			res.send(data);
-		});
+		//or return as json
+		res.send(data);
 	});
+});
 ```
 
 In module  `user.js`:
 
 ```js
-	var Brick = require("node-lego").Brick;
-	module.exports = Brick.create("User",function(params,finish){
-		var userId = params.userId;
-		getUser(userId,function(err , user){
-			if(err){
-				finish(Brick.FAIL);
-			}else{
-				finish(Brick.SUCCESS , user);
-			}
-		});
+var Brick = require("node-lego").Brick;
+module.exports = Brick.create("User",function(params,finish){
+	var userId = params.userId;
+	getUser(userId,function(err , user){
+		if(err){
+			finish(Brick.FAIL);
+		}else{
+			finish(Brick.SUCCESS , user);
+		}
+	});
 		
-	},"/index/user.jade");
+},"/index/user.jade");
 	
 
 ```
@@ -79,22 +79,22 @@ In module `orderlist.js`
 
 ```js
 
-	var Brick = require("node-lego").Brick;
-    module.exports=Brick.create("OrderList",function(params,finish){
-		var user = params.User;
-		if(!user){
-			finish(Brick.FAIL);
-		}else{
-			getOrderList(user,function(err, list){
-				if(err){
-					finish(Brick.FAIL);
-				}else{
-					finish(Brick.SUCCESS, list);
-				}
-			});
-		}
+var Brick = require("node-lego").Brick;
+module.exports=Brick.create("OrderList",function(params,finish){
+	var user = params.User;
+	if(!user){
+		finish(Brick.FAIL);
+	}else{
+		getOrderList(user,function(err, list){
+			if(err){
+				finish(Brick.FAIL);
+			}else{
+				finish(Brick.SUCCESS, list);
+			}
+		});
+	}
 		
-	},"/index/orderlist.jade");
+},"/index/orderlist.jade");
 	
 
 ```
@@ -104,11 +104,11 @@ In `profile.js` , do something same as orderlist;
 In `index.jade`
 
 ```js
-	div #{User.name}
+div #{User.name}
 	
-	.orderlist !{OrderListView}
+.orderlist !{OrderListView}
 	
-	.profile !{PrifileView}		
+.profile !{PrifileView}		
 
 ```
 
@@ -120,13 +120,18 @@ In `index.jade`
 
 global config with a `get` and `set` function. Config list:
 
-- 'view engine'
+- `view engine` , default 'jade' , same as `express` , any template engin supported by [consolidate](https://github.com/tj/consolidate.js) is supported.
+- `views` , default 'views' , root path of the template files , same as `express`
+- `debug` , default 'process.NODE_EVN == "development" ' ,  debug mode , if true , view render error stack will set to the view property of the final data.
 
+use `Lego.setting.get` and `Lego.setting.set` to get and set this config.
 
+example:
 ```js
-	var defaultConfig = {
-	}	
-
+var Lego = require("node-lego");
+var path = require("path");
+Lego.setting.set("views" , path.join(__dirname,"views"));
+Lego.setting.set("view engine","jade");
 ```
 
 
@@ -138,13 +143,41 @@ global config with a `get` and `set` function. Config list:
 - `handler`   {Function} handle function , `params` and `finishCallback` will be parsed in. Call this callback function with `status` and `data`.
 - `viewPath`  {String} optional, template file path, joined to `setting.get("views")`. if this argument provided , the template will be auto rendered when `finish(Brick.SUCCESS ,data)` called and a property Brick.Name+'View' will set to the final data with value as rendered html String.
     
-define a module
+example: define a module
 
 ```js
-var myBrick = Brick.create("myBrick", function(params , finish){
+var myBrick = Brick.create("User", function(params , finish){
     //call finish with `Brick.SUCCESS` or `Brick.FAIL`
-    finish(Brick.SUCCESS , data);
+    finish(Brick.SUCCESS , {
+    	userId:123,
+    	name:"mangix",
+    	email:"maqh1988@gmail.com"
+    });
+    
 } , 'path/to/the/view.jade');
+
+```
+
+in `view.jade`
+
+```
+.userinfo
+    a.name(href='/user/#{id}') #{name}
+    .email #{email}
+	
+```
+if this brick finish with Brick.SUCCESS , this view will be rendered with the data. and the final data in `.done` will get this properties.
+
+```js
+
+User:{
+	userId:123,
+    	name:"mangix",
+    	email:"maqh1988@gmail.com"
+},
+UserView:'<div class="userinfo"><a href="/user/123">mangix</a><div class="email">maqh1988@gmail.com</div></div>'
+
+
 ```
 
 #### Brick.SUCCESS
@@ -153,10 +186,10 @@ in handler , call `finish` callback with Brick.SUCCESS  when data fetching is su
 
 #### Brick.FAIL
 
-in handler , call `finish` callback with Brick.FAIL  when an error occurs , and the data will be set to `null`
+in handler , call `finish` callback with Brick.FAIL  when an error occurs , and the data will be set to `null`,template will not be rendered.
 
 #### Brick.TIMEOUT
-when an `timeout` option passed to Lego , if Brick handle timeout , `finish` will be called with TIMEOUT automatic.
+when an `timeout` option passed to Lego , if Brick handle timeout , `finish` will be called with TIMEOUT automatic. data will be `null`.
 
 ### Lego
 
@@ -165,9 +198,11 @@ when an `timeout` option passed to Lego , if Brick handle timeout , `finish` wil
 - `options` {Object} 
  
 ```js
-    {
-        timeout:0 , //brick timeout time  ,default 0 , not control
-    }
+
+{
+	timeout:0 , //brick timeout time  ,default 0 , not control
+}
+
 ```
 
 #### lego.start(params)
@@ -178,7 +213,7 @@ start the module system with some initial data. Each Brick will get this data in
 
 ```js
 new Lego().start({
-    id:1
+    userId:1
 });
 ```
 
@@ -187,9 +222,11 @@ new Lego().start({
 - `brick` `Brick` created by Brick.create()
     
 execute each brick in the same time , and merge the data together.
-`pipe` could be called many times. pipes are serial and in each pipe bricks are in parallel.
-data will be  merged and passed to the next.
+`pipe` could be called many times. 
+pipes are serial and in each pipe bricks are in parallel.
+data will be merged and passed to the next.
 
+example:
 ```js
 new Lego().start({
     id:1
@@ -278,7 +315,9 @@ new Lego().start({
     //data is :{
         id:1,
         brick1Name:brick1Data,
+        brick1NameView:'',
         brick2Name:brick2Data
+        brick2NameView:''
     }
     // render template 
     res.render("template" , data);
