@@ -2,9 +2,9 @@ extends layout
 
 block content
   h1= User.userName
-  - if BrickWithoutView
+   if BrickWithoutView
       .welcome #{BrickWithoutView.welcome}
-  - if Timeout
+   if TimeoutBrick
       .not !{TimeoutView}
-  - else
+   else
       .sorry This Brick is timeout
