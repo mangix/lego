@@ -23,5 +23,5 @@ var getUserFromDB = function (userId, cb) {
             userName: "mangix",
             email: ""
         });
-    }, 100);
+    }, 50);
 };
