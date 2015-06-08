@@ -22,21 +22,7 @@ describe("lego.Lego", function () {
         });
     });
 
-    /**
-     * Test Lego.prototype.start
-     * */
-    describe("Lego.start", function () {
-        it("should return this", function () {
-            var params = {};
-            expect(lego.start(params)).to.equal(lego);
-        });
 
-        it("should set params to this.params", function () {
-            var params = {};
-            lego.start(params);
-            expect(lego.params).to.equal(params);
-        });
-    });
 
 
     /**
@@ -130,23 +116,7 @@ describe("lego.Lego", function () {
         });
     });
 
-    /**
-     * Test Lego.prototype.done
-     * */
-    describe("Lego.done", function () {
-        it("should return this", function () {
-            expect(lego.done()).to.equal(lego);
-        });
 
-        it("should get data from each Brick", function () {
-            lego.pipe(brick, failBrick).done(function (data) {
-                expect(brick.Name in data).to.be.true;
-                expect(failBrick.Name in data).to.be.true;
-            });
-        });
-
-
-    });
 
     /**
      * Test Lego.prototype.top
