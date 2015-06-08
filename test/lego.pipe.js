@@ -23,8 +23,6 @@ describe("lego.Lego", function () {
     });
 
 
-
-
     /**
      * Test Lego.prototype.pipe
      * */
@@ -115,85 +113,4 @@ describe("lego.Lego", function () {
             });
         });
     });
-
-
-
-    /**
-     * Test Lego.prototype.top
-     * */
-    describe("Lego.top", function () {
-        it("should return this", function () {
-            expect(lego.top()).to.equal(lego);
-        });
-
-        it("param 'brick' should be Brick or BrickName", function () {
-            lego.top("someUnExistBrick", "from", "to");
-            expect(lego.propertyQueue.length).to.equal(0);
-
-            lego.top({}, "from", "to");
-            expect(lego.propertyQueue.length).to.equal(0);
-        });
-
-        it("param 'property','toProperty' should be String", function () {
-            lego.top(brick);
-            expect(lego.propertyQueue.length).to.equal(0);
-        });
-
-        it("should add to propertyQuery", function () {
-            lego.top(brick, "from", "to");
-            expect(lego.propertyQueue.length).to.equal(1);
-            expect(lego.propertyQueue[0].brick).to.equal(brick);
-            expect(lego.propertyQueue[0].property).to.equal("from");
-            expect(lego.propertyQueue[0].toProperty).to.equal("to");
-        });
-    });
-
-    /**
-     * Test view
-     * */
-    describe("Lego.View", function () {
-        //test view
-        it("should set html correctly to brick data when viewPath set", function () {
-            var viewBrick = Brick.create("brickWithView", function (params, finish) {
-                finish(Brick.SUCCESS, {});
-            }, "test.jade");
-            lego.start().pipe(viewBrick).done(function (data) {
-                expect(data["brickWithViewView"]).to.equal("test");
-            });
-        });
-
-        it("should set html to empty when view render failed", function () {
-            var viewBrick = Brick.create("brickWidthWrongViewPath", function (params, finish) {
-                finish(Brick.SUCCESS, {});
-            }, "wrong.jade");
-
-            lego.start().pipe(viewBrick).done(function (data) {
-                expect(data.brickWidthWrongViewPathView).to.equal("");
-            });
-        });
-
-        it("should set html to empty when view not set", function () {
-            lego.start().pipe(brick).done(function (data) {
-                expect(data[brick.Name + "View"]).to.equal(undefined);
-            });
-        });
-
-        it("should set html to error stack when view render failed in debug", function () {
-            Lego.setting.set("debug", true);
-            var viewBrick = Brick.create("brickWidthWrongViewPath", function (params, finish) {
-                finish(Brick.SUCCESS, {});
-            }, "wrong.jade");
-
-            lego.start().pipe(viewBrick).done(function (data) {
-                expect(data.brickWidthWrongViewPathView).to.not.equal("");
-            });
-        });
-
-        it("should set html to empty when brick fail", function () {
-            lego.start().pipe(failBrick).done(function (data) {
-                expect(data[failBrick.Name + "View"]).to.equal(undefined);
-            });
-        })
-    });
-
 });
